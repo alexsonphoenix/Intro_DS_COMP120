@@ -1,0 +1,7 @@
+Key,Description,Units
+HR,Resting Heart Rate,/min
+SYS,Systolic Blood Pressure,mmHg
+DIA,Diastolic Blood Pressure,mmHg
+W,Weight,kg
+H,Height,m
+OSAT,Oxygen Saturation,%

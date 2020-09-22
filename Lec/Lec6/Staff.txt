@@ -1,0 +1,26 @@
+"id";"name";"salary"
+1001;"el-Qasim, Nasreen";87216
+1002;"Burress-Willis, Matias";82495
+1003;"Felicia, Deisha";92671
+1004;"Hicks, Blair";55543
+1005;"Mcdonald-Brown, Taylor";76071
+1006;"Digby, Dakota";95750
+1007;"Collins, Jordan";77541
+1008;"Turcinovic, Jacob";83773
+1009;"Shaffer, Madison";85972
+1010;"Craig-Varela, Taylor";78840
+1011;"Socorro, Joseph";50461
+1012;"Hochmuth, Eun";58154
+1013;"al-Alam, Haaritha";64020
+1014;"Hill II, Rowell";64841
+1015;"al-Harron, Hiwaaya";53505
+1016;"Talamantes, Faviola";52953
+1017;"Barnaby, Alexandra";93142
+1018;"Arnold, Abygayly";56792
+1019;"Trimble III, Jordan";81476
+1020;"Johnson, Quentin";73426
+1021;"Haberland, Maya";98332
+1022;"Root, Nicholas";54105
+1023;"Flores Gutierrez, Kayla";92188
+1024;"al-Morad, Miqdaam";91570
+1025;"Jones, Mileena";91951
