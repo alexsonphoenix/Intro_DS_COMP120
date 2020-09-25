@@ -1,0 +1,142 @@
+---
+title: "A comparison of two New Zealand politicians’ tweets"
+author: "Son Hoang Nguyen"
+student_id: 5120768
+date: "25 September 2020"
+output:   
+  html_document: default
+  word_document: default
+---
+
+<style type="text/css">
+h1.title {
+  font-size: 30px;
+  color: #3282e3;
+  text-align: center;
+}
+h4.author { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+
+h1,h2{
+  font-family: "Times New Roman", Times, serif;
+  color: #3282e3;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+ardern_tweets <- read_csv("ardern_tweets.csv")
+winston_tweets <- read_csv("winston_tweets.csv")
+
+tweets <- ardern_tweets %>% 
+  bind_rows(winston_tweets) %>% 
+  select(created, text, isRetweet, screenName)
+
+```
+
+# About me
+
+I am Son Hoang Nguyen aka Alex. I am from Dalat, a beautiful city in the southern highland Vietnam. I am a first year student pursing Bcom degree in Accounting, with a minor in Data Science. The papers I am taking this semester are:
+
+*	COMP120 - Practical Data Science
+*	ACCT102 - Principles of Accounting
+* BSNS113 - Principles of Economics
+
+# Scope of this report
+
+This report is a part of an asssessment in COMP120. This report demonstrates my understanding of the use of R Markdown. For this purpose, I will be presenting an analysis of Jacinda Ardern’s and Winston Peter’s tweets. The provided dataset contains a total of `r nrow(ardern_tweets)` tweets from Jacinda Ardern and `r nrow(winston_tweets)` tweets from Winston Peters. In total, there were `r nrow(tweets)` tweets in the combined dataset called tweets.\
+
+This report is organised as follows. The next section presents three types of analyses conducted. The last section concludes the report.
+
+
+# Timeline analysis
+
+In this section, first the results of combined tweet counts of all tweets from both politicians are presented. Next, comparative counts of original tweets (i.e., excluding retweets) of these two politicians between 2013 and 2018 are presented. Finally, the number of URLs in original tweets for the same time period is presented (i.e., excluding retweets).
+
+
+## Combined counts of tweets
+
+The code below produces a bar graph of the counts of tweets from Jacinda Ardern and Winston Peters. The x axis represents the years, and the y axis is the counts of tweets.
+
+
+```{r count of tweets, include=TRUE}
+tweets$year <- year(tweets$created)
+
+tweets %>% 
+  mutate(year = as.factor(year)) %>% 
+  ggplot(aes(x = year, fill = year)) +
+    geom_bar() + 
+    ggtitle("Tweets per year") +
+    xlab("Year") +
+    ylab("Count")
+```
+
+```{r yearly_tweet_counts, include=FALSE}
+yearly_tweet_counts <- tweets %>% 
+  group_by(year) %>% 
+  summarise(n = n())
+
+yearly_tweet_count_jacinda <- tweets %>% 
+  filter(screenName == "jacindaardern") %>% 
+  group_by(year) %>% 
+  summarise(n = n())
+  
+yearly_tweet_count_winston <- tweets %>% 
+  filter(screenName == "winstonpeters") %>% 
+  group_by(year) %>% 
+  summarise(n = n())
+```
+
+The graph above shows that the maximum and minimum number of tweets posted in a year were `r max(yearly_tweet_counts$n)` and `r min(yearly_tweet_counts$n)`, respectively. The graph also shows that the two politician were vert active in the years 2014, and 2017. However, their activities on twitter have significantly reduced in the recent years.
+
+
+## Comparative counts of tweets between 2013 and 2018
+Jacinda Ardern twitter usage peaked in 2014 at `r max(yearly_tweet_count_jacinda$n)` tweets, but since then, she used twitter less frequently over the years. On the other hand, Winston Peters tweeted a lot in 2017 with `r max(yearly_tweet_count_winston$n)` tweets
+
+```{r comparision of tweet counts, echo=FALSE}
+tweets %>% 
+  filter(isRetweet == FALSE) %>%
+  filter(year == 2013|year == 2014|year == 2015|year == 2016|year == 2017|year == 2018) %>% 
+  ggplot(aes(x=year))+
+    geom_bar(aes(fill=screenName), position = "dodge")+
+    xlab("Year")+
+    ylab("Tweet counts")+
+    ggtitle("Comparision of tweet counts")
+```
+
+## Comparative counts of URLs in tweets between 2013 and 2018  
+In the year 2014 Jacinda Ardern included many links in her tweets and she does so less over time. This should not be a surprise because earlier in this analysis we saw that she used Twitter a lot in the years 2014 and then gradually reduced her usage. On the other hand, Winston Peters referenced to external sources more in the year 2017 when he suddenly used Twitter extensively. The amount of Winston's tweets containing URLs in 2017 was more than Jacinda even in her peak year of using Twitter.
+```{r comparision of URL counts, echo=FALSE}
+tweet_url_counts <- tweets %>% 
+  filter(isRetweet == FALSE) %>% 
+  filter(year == 2013|year == 2014|year == 2015|year == 2016|year == 2017|year == 2018) %>% 
+  count(screenName,year,
+        hasUrl = ifelse(str_detect(text, "t\\.co"),
+                     1, 0)) %>% 
+  filter(hasUrl == 1) %>% 
+  select(-hasUrl)
+  
+
+tweet_url_counts %>%
+  ggplot()+
+    geom_line(mapping = aes(x=year, y=n, col=screenName))+
+    xlab("Year")+
+    ylab("Counts of links")+
+    ggtitle("Comparision of URL counts")
+```
+
+
+# Conclusion
+From the above analysis, we can see that Jacinda Ardern and Winston Peters Twitter's usage patterns are different. While Jacinda used Twitter to share her thoughts very early in the years 2014,2015, but then she used it less frequently. On the contracy, Winston used Twitter a lot in more recent years especially 2017, he particularly like to include URLs to external sources in his tweet.
+
+

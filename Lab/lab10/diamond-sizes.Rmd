@@ -1,8 +1,8 @@
 ---
 title: "Diamond sizes"
 output:
-  word_document: default
   html_document: default
+  word_document: default
 date: '2016-25-08'
 ---
 
@@ -22,3 +22,21 @@ smaller %>%
   ggplot(aes(carat)) + 
   geom_freqpoly(binwidth = 0.01)
 ```
+```{r cut and color, echo=FALSE}
+diamonds %>% 
+  count(color,cut) %>% 
+  ggplot(aes(x=color,y=cut))+
+    geom_tile(aes(fill=n))
+```
+```{r relationships, include=TRUE}
+ggplot(data = diamonds)+
+  geom_point(aes(x=carat, y=price))+
+  facet_grid(cut~clarity)+
+  ggtitle("relationships between four variables price, carat, cut, and clarity")
+```
+
+
+The price range of diamonds is between `r min(diamonds$price)` and `r max(diamonds$price)`
+
+
+

@@ -103,7 +103,8 @@ ggplot(data = corona_df)+
                          fill=Overseas_travel), position = 'dodge')+
   ggtitle("Status counts based on whether a case traveled overseas")+
   ylab("Count")+
-  xlab("Status")
+  xlab("Status")+
+  theme(legend.position="bottom") ## legend is set at the bottom
 
 
 
