@@ -64,7 +64,7 @@ lakes %>%
 #Code for the second visualisation
 lakes %>% 
   select(Name,Region,SurfaceArea) %>% #select columns of interest
-  mutate(Name_Region = str_c(Name,Region,sep = " ")) %>%  # create a new column containing both Name and Region
+  mutate(Name_Region = str_c(Name,Region,sep = "-")) %>%  # create a new column containing both Name and Region
   arrange(desc(SurfaceArea)) %>%  #arange by descending order SurfaceArea
   head(4) %>% # take the top 4 SurfaceArea lakes
   ggplot(aes(x=reorder(Name_Region,desc(SurfaceArea)),y=SurfaceArea)) +

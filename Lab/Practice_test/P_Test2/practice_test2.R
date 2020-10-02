@@ -41,6 +41,7 @@ table4a_mod <- table4a %>%
                names_to = "Year",
                values_to = "Cases")
 
+
 table4a_original <- table4a_mod %>% 
   pivot_wider(names_from = Year,
               values_from = Cases)

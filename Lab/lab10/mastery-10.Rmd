@@ -126,7 +126,6 @@ tweet_url_counts <- tweets %>%
   filter(hasUrl == 1) %>% 
   select(-hasUrl)
   
-
 tweet_url_counts %>%
   ggplot()+
     geom_line(mapping = aes(x=year, y=n, col=screenName))+
